@@ -11,21 +11,26 @@ function App() {
   const [dataLoading, setDataLoading] = useState(true);
   const [notes, setNotes] = useState(null);
 
+  async function getNotes() {
+    const response = await fetch("http://localhost:8000/notes");
+    const data = await response.json();
+
+    data.sort((noteA, noteB) => {
+      if (noteB.date > noteA.date) return 1;
+      return -1;
+    });
+
+    setDataLoading(false);
+    setNotes(data.slice(0, 10));
+  }
+
   useEffect(() => {
-    async function getNotes() {
-      const response = await fetch("http://localhost:8000/notes");
-      const data = await response.json();
-
-      // if(!response.ok)
-      setDataLoading(false);
-      setNotes(data);
-    }
-
     getNotes();
   }, []);
 
   async function createNewNote(e) {
     e.preventDefault();
+    getNotes();
 
     if (title.length < 1) {
       setTitleErr(true);
@@ -50,8 +55,7 @@ function App() {
       body: JSON.stringify(noteData),
     });
 
-    if (response.ok) console.log("Note Added Successfully");
-
+    if (response.ok) getNotes();
     setTitle("");
     setContent("");
   }
@@ -106,14 +110,26 @@ function App() {
             <div style={{ textAlign: "center" }}>{dataLoading && <div className="loading-icon"></div>}</div>
             <div className="notes-preview">
               {notes ? (
-                <div className="note-con">
-                  {notes.map((note) => (
-                    <div key={note.id} className="note-child">
-                      <p data-note-title>{note.title}</p>
-                      <button className="show-btn">View</button>
-                    </div>
-                  ))}
-                </div>
+                <>
+                  <div className="note-con">
+                    {notes.map((note) => (
+                      <div key={note.id} className="note-child">
+                        <p data-note-title>{note.title}</p>
+                        <p data-note-date>
+                          {new Date(note.date).getDate()}{" "}
+                          {
+                            ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dev"][
+                              new Date(note.date).getMonth()
+                            ]
+                          }{" "}
+                          {new Date(note.date).getFullYear()}
+                        </p>
+                        <button className="show-btn">View</button>
+                      </div>
+                    ))}
+                  </div>
+                  <button className="show-all">See all notes</button>
+                </>
               ) : (
                 <div>There are no notes</div>
               )}

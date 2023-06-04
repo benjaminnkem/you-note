@@ -186,11 +186,40 @@ button {
   color: #e4e8ec;
   border-radius: 5px;
   margin-top: 10px;
-  transition: all .4s;
+  transition: all 0.4s;
 }
 
 .show-btn:hover {
   background-color: #9e40b7;
+}
+
+.show-all {
+  position: relative;
+  margin-top: 10px;
+  text-transform: capitalize;
+  cursor: pointer;
+  user-select: none;
+  -moz-user-select: none;
+  background-color: transparent;
+  color: #e4e8ec;
+}
+
+.show-all::after {
+  position: absolute;
+  content: "";
+  width: 0%;
+  transition: all .2s;
+  height: 4px;
+  bottom: -8px;
+  right: 0;
+  background: #8e2ca9;
+}
+
+.show-all:hover::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  width: 100%;
 }
 
 /* .note-child:hover {
