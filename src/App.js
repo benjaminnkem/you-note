@@ -1,96 +1,127 @@
-import {useEffect, useState} from "react";
-import Feed from "./components/Feed";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
-import SidePanel from "./components/SidePanel";
-import Test from "./components/Test";
 
 function App() {
-  const [items] = useState([
-    {
-      id: 1,
-      itemName: "LG TV",
-      price: "$299.99",
-      desc: "An LG television available for sale in FUNAAB, Ogun State",
-      imgSrc: "/images/tv.jpg",
-      seller: "Benjamin Nkem",
-      quan: 1,
-    },
-    {
-      id: 2,
-      itemName: "4x6 Bed",
-      price: "$149.99",
-      desc: "Get a nice bed before going to school to prevent seeing shege",
-      imgSrc: "/images/bed.jpg",
-      seller: "Elon Judas",
-      quan: 1,
-    },
-    {
-      id: 3,
-      itemName: "Lexus 360",
-      price: "$1499.99",
-      desc: "Get a Lexus 360 today and reach your destination on time",
-      imgSrc: "/images/lexus.jpg",
-      seller: "Kehinde Berry",
-      quan: 1,
-    },
-    {
-      id: 4,
-      itemName: "Mangoes",
-      price: "$2.99",
-      desc: "Get Fresh mangoes with tastes out of this world... All available in store.",
-      imgSrc: "/images/mangoes.jpg",
-      seller: "Alan Walker",
-      quan: 1,
-    },
-    {
-      id: 5,
-      itemName: "Macbook",
-      price: "$4999.99",
-      desc: "All Macbook are available in store, get the one of your choice",
-      imgSrc: "/images/mac.jpg",
-      seller: "Micahel Jordan",
-    },
-    {
-      id: 6,
-      itemName: "Toothbrush",
-      price: "$19.99",
-      desc: "Get your toothbrush for as low as $19.99, shege will be seen",
-      imgSrc: "/images/brush.jpg",
-      seller: "Wizkid",
-      quan: 1,
-    },
-  ]);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
-  const [allItems, setAllItems] = useState([]);
-  const [multiKeyCheck, setMultiKeyCheck] = useState(true);
+  const [titleErr, setTitleErr] = useState(false);
+  const [contentErr, setContentErr] = useState(false);
 
-  function addItemToCart(item) {
-    setAllItems(() => [...allItems, item]);
-  }
+  const [dataLoading, setDataLoading] = useState(true);
+  const [notes, setNotes] = useState(null);
 
   useEffect(() => {
-    if (allItems.length >= 1)
-      allItems.forEach((item) => {
-        if (item.id === 1)
-          console.log("Multi key", item)
-      })
-  }, [allItems])
+    async function getNotes() {
+      const response = await fetch("http://localhost:8000/notes");
+      const data = await response.json();
+
+      // if(!response.ok)
+      setDataLoading(false);
+      setNotes(data);
+    }
+
+    getNotes();
+  }, []);
+
+  async function createNewNote(e) {
+    e.preventDefault();
+
+    if (title.length < 1) {
+      setTitleErr(true);
+      // setTitleErrText("Title cannot be left empty.");
+      return;
+    }
+
+    setTitleErr(false);
+
+    if (content.length < 1) {
+      setContentErr(true);
+      // setContentErrText("Content body cannot be left empty");
+      return;
+    }
+
+    setContentErr(false);
+
+    const noteData = { title, content, date: new Date() };
+    const response = await fetch("http://localhost:8000/notes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(noteData),
+    });
+
+    if (response.ok) console.log("Note Added Successfully");
+
+    setTitle("");
+    setContent("");
+  }
 
   return (
-    <div id="main__con__con">
-      <div id="header__con">
-        <Navbar allItems={allItems.length}/>
+    <>
+      <div className="wrapper">
+        <Navbar />
       </div>
-      <div id="body__con">
-        <Feed items={items} addItemToCart={addItemToCart}/>
 
-        <div id="side__panel__con">
-          <SidePanel allItems={allItems}/>
+      <main>
+        <div className="inp-display wrapper">
+          <div>
+            <h3 className="newt-text">Create New Note</h3>
+            <div className="form-container">
+              <form className="note-form" onSubmit={(e) => createNewNote(e)}>
+                <div className="form-holder">
+                  <div>
+                    <label htmlFor="title">Title</label>
+                    <input
+                      type="text"
+                      name="title"
+                      id="title-input"
+                      placeholder="Enter Title"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      style={{ outline: `${titleErr ? "1px #d71010 solid" : "none"}` }}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="content">Content</label>
+                    <textarea
+                      name="content"
+                      cols="30"
+                      rows="10"
+                      id="text-input"
+                      placeholder="Write your notes here."
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
+                      style={{ outline: `${contentErr ? "1px #d71010 solid" : "none"}` }}
+                    ></textarea>
+                  </div>
+                </div>
+
+                <input type="submit" value="Create Note" id="create-btn" />
+              </form>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="newt-text">Recent Notes</h3>
+            <div style={{ textAlign: "center" }}>{dataLoading && <div className="loading-icon"></div>}</div>
+            <div className="notes-preview">
+              {notes ? (
+                <div className="note-con">
+                  {notes.map((note) => (
+                    <div key={note.id} className="note-child">
+                      <p data-note-title>{note.title}</p>
+                      <button className="show-btn">View</button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div>There are no notes</div>
+              )}
+            </div>
+          </div>
         </div>
-
-        <Test/>
-      </div>
-    </div>
+      </main>
+    </>
   );
 }
 

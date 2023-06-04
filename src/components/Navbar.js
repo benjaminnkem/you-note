@@ -1,26 +1,20 @@
-const Navbar = ({ allItems }) => {
+const Navbar = () => {
   return (
-    <div id="navbar__con">
-      <div id="nav__">
-        <h1 id="logo">
-          THE SHEGE SHOP
-          <span style={{ display: "block", fontSize: "12px", color: "#959595" }}>
-            BY BENJAMIN NKEM
-          </span>
-        </h1>
+    <>
+      <div className="navbar">
+        <div>
+          <h1>YouNote</h1>
+        </div>
 
         <nav>
           <ul>
-            <a href="/">Explore</a>
-            <a href="/">Sign Up</a>
-            <a href="/" className="view_cart_link" data-items-added={allItems}>
-              Items
-            </a>
-            <a href="/">Login</a>
+            <li>Add Notes</li>
+            <li>See Notes</li>
+            <li>Buy me a coffee</li>
           </ul>
         </nav>
       </div>
-    </div>
+    </>
   );
 };
 
