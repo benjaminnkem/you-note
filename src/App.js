@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
+import Note from "./components/Note";
 
 function App() {
   const [title, setTitle] = useState("");
@@ -10,6 +11,7 @@ function App() {
 
   const [dataLoading, setDataLoading] = useState(true);
   const [notes, setNotes] = useState(null);
+  const [selectedNote, setSelectedNote] = useState(null);
 
   async function getNotes() {
     const response = await fetch("http://localhost:8000/notes");
@@ -21,7 +23,7 @@ function App() {
     });
 
     setDataLoading(false);
-    setNotes(data.slice(0, 10));
+    setNotes(data.slice(0, 8));
   }
 
   useEffect(() => {
@@ -60,8 +62,13 @@ function App() {
     setContent("");
   }
 
+  function openNote(note) {
+    setSelectedNote(note);
+  }
+
   return (
     <>
+      { selectedNote && <Note selectedNote={selectedNote} setSelectedNote={setSelectedNote}/> }
       <div className="wrapper">
         <Navbar />
       </div>
@@ -109,7 +116,7 @@ function App() {
             <h3 className="newt-text">Recent Notes</h3>
             <div style={{ textAlign: "center" }}>{dataLoading && <div className="loading-icon"></div>}</div>
             <div className="notes-preview">
-              {notes ? (
+              {!dataLoading && notes ? (
                 <>
                   <div className="note-con">
                     {notes.map((note) => (
@@ -124,7 +131,9 @@ function App() {
                           }{" "}
                           {new Date(note.date).getFullYear()}
                         </p>
-                        <button className="show-btn">View</button>
+                        <button className="show-btn" onClick={() => openNote(note)}>
+                          View
+                        </button>
                       </div>
                     ))}
                   </div>
