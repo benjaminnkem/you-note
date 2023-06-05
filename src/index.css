@@ -195,6 +195,10 @@ button {
   background-color: #9e40b7;
 }
 
+.action-btn-con button {
+  margin-inline: 5px;
+}
+
 .show-all {
   position: relative;
   margin-top: 10px;
@@ -240,7 +244,7 @@ button {
   background-color: #781c92;
   color: #e4e8ec;
   border-radius: 10px;
-  animation: popup .8s ease-in-out 0s;
+  animation: popup 0.8s ease-in-out 0s;
   max-width: 420px;
 }
 
@@ -251,6 +255,9 @@ button {
 
 [data-mainnote-content] {
   margin-block: 10px;
+  white-space: pre-line;
+  max-height: 480px;
+  overflow-x: hidden;
 }
 
 [data-mainnote-date] {
@@ -269,6 +276,10 @@ button {
 .note-body button:hover {
   cursor: pointer;
   background-color: #8d33a5;
+}
+
+.note-btn-action-con button {
+  margin-inline: 5px;
 }
 
 @keyframes spin {

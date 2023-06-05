@@ -41,6 +41,18 @@
       "content": " Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio enim magni incidunt molestiae\n                      perspiciatis magnam nam quibusdam vero, amet voluptas ratione natus molestias sapiente, cum ipsum\n                      rem recusandae tempora quaerat?",
       "date": "2023-06-04T20:35:12.872Z",
       "id": 7
+    },
+    {
+      "title": "I'm going to make my code work today!",
+      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero odit, id impedit maiores inventore similique deserunt esse est consequatur autem atque. Esse modi rem natus minus magni nemo tenetur incidunt.\n",
+      "date": "2023-06-05T11:03:50.653Z",
+      "id": 8
+    },
+    {
+      "title": "Probability Density Function",
+      "content": "Probability density function is a function that provides the likelihood that the value of a random variable will fall between a certain range of values. We use the probability density function in the case of continuous random variables. For discrete random variables, we use the probability mass function which is analogous to the probability density function.\n\nThe graph of a probability density function is in the form of a bell curve. The area that lies between any two specified values gives the probability of the outcome of the designated observation. We solve the integral of this function to determine the probabilities associated with a continuous random variable. In this article, we will do a detailed analysis of the probability density function and take a look at the various aspects related to it.\n\nProbability density function is a function that provides the likelihood that the value of a random variable will fall between a certain range of values. We use the probability density function in the case of continuous random variables. For discrete random variables, we use the probability mass function which is analogous to the probability density function.\n\nThe graph of a probability density function is in the form of a bell curve. The area that lies between any two specified values gives the probability of the outcome of the designated observation. We solve the integral of this function to determine the probabilities associated with a continuous random variable. In this article, we will do a detailed analysis of the probability density function and take a look at the various aspects related to it.",
+      "date": "2023-06-05T11:10:36.240Z",
+      "id": 9
     }
   ]
 }

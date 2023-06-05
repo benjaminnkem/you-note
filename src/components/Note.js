@@ -16,7 +16,11 @@ const Note = ({ selectedNote, setSelectedNote }) => {
             <p data-mainnote-content>{selectedNote.content}</p>
 
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <p data-mainnote-date>{formattedDate}</p> <button onClick={closeNote}>Close</button>
+              <p data-mainnote-date>{formattedDate}</p>{" "}
+              <div className="note-btn-action-con">
+                <button className="delete-btn">Delete</button>
+                <button onClick={closeNote}>Close</button>
+              </div>
             </div>
           </div>
         </div>

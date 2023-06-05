@@ -68,7 +68,7 @@ function App() {
 
   return (
     <>
-      { selectedNote && <Note selectedNote={selectedNote} setSelectedNote={setSelectedNote}/> }
+      {selectedNote && <Note selectedNote={selectedNote} setSelectedNote={setSelectedNote} />}
       <div className="wrapper">
         <Navbar />
       </div>
@@ -131,9 +131,11 @@ function App() {
                           }{" "}
                           {new Date(note.date).getFullYear()}
                         </p>
-                        <button className="show-btn" onClick={() => openNote(note)}>
-                          View
-                        </button>
+                        <div className="action-btn-con">
+                          <button className="show-btn" onClick={() => openNote(note)}>
+                            View
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>
